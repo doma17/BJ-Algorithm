@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"iostream": "cpp",
+			"ios": "cpp",
+			"vector": "cpp",
+			"map": "cpp",
+			"unordered_map": "cpp",
+			"istream": "cpp",
+			"set": "cpp",
+			"queue": "cpp"
+		}
+	}
+}
