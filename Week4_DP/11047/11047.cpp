@@ -8,16 +8,18 @@ typedef long long int ll;
 int main() {
     fastio;
     ll N, K, sum = 0;
+    cin >> N >> K;
     vector<int> v(N);
     for(int i = 0; i < N; i++) cin >> v[i];
+    reverse(v.begin(), v.end());
 
     int cnt = 0;
-    for(int i = N-1; i >= 0; i--) {
-        if((K - sum) / v[i] > 0 && (K - sum) >= v[i]) {
-            sum += v[i] * (K - sum) / v[i];
-            cnt += (K - sum) / v[i];
+    for(auto x : v) {
+        if(K >= x) {
+            cnt += K / x;
+            K %= x;
+            if(K <= 0) break;
         }
     }
-
     cout << cnt << "\n";
 }
