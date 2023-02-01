@@ -9,57 +9,44 @@ int main() {
     fastio;
     int N, M, K;
     cin >> N >> M >> K;
-    map<int, int> m; int key, value;
-    for(int i = 0; i < N; i++) {
+    map<int, int> m;
+    
+    int key, value;
+    while(N--) {
         cin >> key >> value;
         m[key] = value;
     }
 
     int num;
-    for(int i = 0; i < M; i++) {
+    while(M--) {
         cin >> num >> key;
+        auto it_back = m.lower_bound(key);
+        auto it_front = m.lower_bound(key);
+        int a = abs(key - it_front->first);
+        int b = abs(key - it_back->first);
         // 1 Key Value 데이터 추가
         if(num == 1) {
             cin >> value;
-            if(m.find(key) == m.end())m[key] = value;
-            continue;
+            m[key] = value;
         }
-
-        // 가장 가까운 key값을 탐색
-        int cal_num = 1; 
-        while(m.find(key) == m.end()) {
-
-            // auto it = m.lower_bound(key)
-
-            // K범위를 넘어감 or 탐색실패 -> -1을 저장
-            if(cal_num > K) { 
-                key = -1; 
-                break;
-            }
-            // 같은 범위 안의 해당하는 키가 두개 이상 존재
-            if(m.find(key - cal_num) != m.end() && m.find(key + cal_num) != m.end()) {
-                key = 0;
-                break;
-            }
-            else if(m.find(key - cal_num) != m.end()) {
-                key -= cal_num;
-                break;
-            }
-            else if (m.find(key + cal_num) != m.end()){
-                key += cal_num;
-                break;
-            }
-            cal_num++;
-        }
-        
-        if(num == 2) {
+        // 2 Key Value 데이터 변경
+        else if(num == 2) {
             cin >> value;
-            if(key > 0) m[key] = value;
+            if(a <= K || b <= K) {
+                if(a == b) continue;
+                else if(a < b) m[it_front->first] = value;
+                else if(a > b) m[it_back->first] = value;
+                else continue;
+            }
         }
-        else { // num == 3
-            if(key == -1) cout << "-1\n";
-            else if(key == 0) cout << "?\n";
-            else cout << m[key] << "\n";
+        // 3 Key 데이터 검색, 조건 만족 키
+        else if(num == 3) {
+            if(a <= K || b <= K) {
+                if(a == b) cout << "?\n";
+                else if (a < b) cout << it_front->second << "\n";
+                else if (a > b) cout << it_back->second << "\n";
+                else cout << "-1\n";
+            }
         }
     }
 }
