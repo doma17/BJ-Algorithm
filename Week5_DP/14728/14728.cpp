@@ -14,9 +14,8 @@ int main() {
     for(int i = 1; i <= n; i++) cin >> k[i] >> s[i];
 
     for(int i = 1; i <= n; i++) {
-        for(int j = t; j >= 1; j--) {
-            if(j - k[i] > 0) dp[j] = max(dp[j], dp[j - k[i]] + s[i]);
-            dp[j] = max(dp[j], dp[j-1]);
+        for(int j = t; j >= k[i]; j--) {
+            dp[j] = max(dp[j], dp[j - k[i]] + s[i]);
         }
     }
     cout << dp[t] << "\n";
