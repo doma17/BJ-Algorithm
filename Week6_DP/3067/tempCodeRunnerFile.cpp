@@ -24,7 +24,9 @@ int main() {
         for(int i = 1; i <= N; i++) {
             for(int j = coin[i]; j <= M; j++) {
                 dp[j] += dp[j - coin[i]];
+                cout << dp[j] << " ";
             }
+            cout << "\n";
         }
 
         // OUTPUT
