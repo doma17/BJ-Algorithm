@@ -2,41 +2,36 @@
 #include <algorithm>
 using namespace std;
 #define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+#define ll long long int
 
 // n:사탕 종류, m:돈
-int n, m;
+int n; double m;
 // 칼로리, 가격
-int calorie[5001]; int price[5001];
+int calorie[5001] = {0}; double price[5001] = {0};
 // 100.00 -> 10000
 int dp[10001] = {0};
 
 int main() {
     fastio;
-    double temp;
     while(true) {
         // INPUT
-        cin >> n >> temp;
-        m = (int)(temp * 100 + 0.5); // 소숫 값을 정수형으로 바꾼다.
-        if(n == 0 && m == 0) break;
-        
-        for(int i = 1; i <= n; i++) {
-            cin >> calorie[i] >> temp;
-            price[i] = (int)(temp * 100 + 0.5); // 소숫 값을 정수형으로 바꾼다.
-        }
+        cin >> n >> m;
+        if(n == 0 && m == 0) return 0;
+        for(int i = 1; i <= n; i++)
+            cin >> calorie[i] >> price[i];
 
         // DP
-        for(int i = 1; i <= m; i++) {
-            for(int j = 1; j <= n; j++) {
-                if(i - price[j] >= 0)
-                    dp[i] = max(dp[i], dp[i - price[j]] + calorie[j]);
+        int ans = 0;
+        // rounding error 때문에 0.5를 더해준다. (temp * 100 + 0.5)
+        for(int i = 1; i <= m * 100 + 0.5; i++) { 
+            for(int j = 1; j <= n; j++) { 
+                if(i - price[j] * 100 + 0.5 >= 0)
+                    dp[i] = max(dp[i], dp[i - (int)(price[j] * 100 + 0.5)] + calorie[j]);
             }
+            ans = max(ans, dp[i]);
         }
 
         // OUTPUT
-        int MAX = 0;
-        for(int i = 1; i <= m; i++) {
-            MAX = max(MAX, dp[i]);
-        }
-        cout << MAX << "\n";
+        cout << ans << "\n";
     }
 }
