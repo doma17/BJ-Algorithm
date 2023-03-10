@@ -8,22 +8,23 @@ using namespace std;
 #define ll long long int
 
 int n, m; // 정점개수, 간선개수
-vector<int> adj[101];
-bool visited[101];
+vector<int> adj[501];
+bool visited[501];
 queue<int> q;
 
 // BFS 방식으로 문제해결
 void bfs(int cnt) {
     visited[cnt] = true;
-    q.push(cnt);
+    for(auto x : adj[cnt]) {
+        visited[x] = true;
+        q.push(x);
+    }
 
     while(!q.empty()) {
         int s = q.front(); q.pop();
-
         for(auto x : adj[s]) {
-            if(visited[x] || visited[s] >= 3) continue;
+            if(visited[x]) continue;
             visited[x] = true;
-            q.push(x);
         }
     }
 }
