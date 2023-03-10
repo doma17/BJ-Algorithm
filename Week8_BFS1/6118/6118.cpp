@@ -8,9 +8,10 @@ using namespace std;
 #define ll long long int
 
 int n, m; // 정점개수, 간선개수
-vector<int> adj[101];
-bool visited[101];
+vector<int> adj[20001];
+int visited[20001];
 queue<int> q;
+int maxidx, maxnum, maxcnt;
 
 // BFS 방식으로 문제해결
 void bfs(int cnt) {
@@ -21,8 +22,8 @@ void bfs(int cnt) {
         int s = q.front(); q.pop();
 
         for(auto x : adj[s]) {
-            if(visited[x] || visited[s] >= 3) continue;
-            visited[x] = true;
+            if(visited[x]) continue;
+            visited[x] = visited[s] + 1;
             q.push(x);
         }
     }
@@ -46,7 +47,13 @@ int main() {
 
     int ans = 0;
     for(int i = 2; i <= n; i++) {
-        if(visited[i]) ans++;
+        if(visited[i] > maxnum) {
+            maxnum = visited[i];
+            maxidx = i;
+            maxcnt = 1;
+        }
+        else if(visited[i] == maxnum) 
+            maxcnt++;
     }
-    cout << ans << "\n";
+    cout << maxidx << " " << maxnum - 1 << " " << maxcnt << "\n";
 }

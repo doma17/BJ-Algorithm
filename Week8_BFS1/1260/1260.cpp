@@ -34,8 +34,8 @@ void bfs(int cnt) {
 
         for(auto u : adj[s]) {
             if(visited[u]) continue;
-            q.push(u);
             visited[u] = true;
+            q.push(u);
         }
     }
 }
