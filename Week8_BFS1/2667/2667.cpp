@@ -7,46 +7,28 @@ using namespace std;
 #define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 
 int N;
-int map[300][300];
-bool visited[300][300];
-
-queue<pair<int, int>> q;
+int map[26][26];
+bool visited[26][26];
 int dx[] = {1, 0, 0, -1};
 int dy[] = {0, 1, -1, 0};
-int complex_cnt = 0;
-int house_cnt = 0;
+int cnt = 0;
 
-void bfs(int i, int j) {
-    q.push({i, j});
-    visited[i][j] = true;
-    house_cnt++;
+void dfs(int x, int y) { // DFS 풀이 방법
+    visited[y][x] = true;
+    cnt++;
 
-    while(!q.empty()) {
-        int y = q.front().first;
-        int x = q.front().second;
-        q.pop();
+    for(int i = 0; i < 4; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
 
-        for(int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if(nx < 0 || nx >= N || ny < 0 || ny >= N) // 범위를 벗어나지 않도록 제한
-                continue;
-            if(visited[ny][nx]) // 이미 방문한 곳인지 확인
-                continue;
-            if(map[ny][nx] == 1) { // 현재 위치에 집이 존재하는지 확인
-                visited[ny][nx] = true;
-                q.push({ny, nx});
-                house_cnt++;
-            }
-        }
+        if(nx < 0 || nx >= N || ny < 0 || ny >= N) // 범위를 벗어나지 않도록 제한
+            continue;
+        if(visited[ny][nx]) // 이미 방문한 곳인지 확인
+            continue;
+        if(map[ny][nx] == 0) // 현재 위치에 집이 존재하는지 확인
+            continue;
+        dfs(nx, ny);
     }
-}
-
-void reset() {
-    while(!q.empty()) q.pop();
-    memset(map, 0, sizeof(map));
-    memset(visited, 0, sizeof(visited));
 }
  
 int main() {
@@ -54,32 +36,31 @@ int main() {
     // INPUT
     cin >> N;
     for(int i = 0; i < N; i++) {
+        string input;
+        cin >> input;
+
         for(int j = 0; j < N; j++) {
-            cin >> map[i][j];
+            map[i][j] = input.at(j) - '0';
         }
     }
 
-    // BFS
-    queue<int> q_cnt;
+    // DFS
+    vector<int> v;
     for(int i = 0; i < N; i++) {
         for(int j = 0; j < N; j++) {
             if(visited[i][j]) continue;
             if(map[i][j] == 0) continue;
 
-
-
-            bfs(i, j);
-            q_cnt.push(house_cnt);
-            house_cnt = 0;
-            complex_cnt++;
+            dfs(j, i); // dfs 풀이방법 사용
+            v.push_back(cnt);
+            cnt = 0;
         }
     }
     
     // OUTPUT
-    cout << complex_cnt << "\n";
-    sort(q_cnt);
-    while(!q_cnt.empty()) {
-        cout << q_cnt.front() << "\n";
-        q_cnt.pop();
+    sort(v.begin(), v.end());
+    cout << v.size() << "\n";
+    for(auto x : v) {
+        cout << x << "\n";
     }
 }
