@@ -10,5 +10,5 @@
 ---
 #### Study Crew
 - 🥸 장철희: <https://github.com/jang-namu>
-- 🫤 조치현: 
+- 🤩 조치현: 
 - 🤪 이승관: 
