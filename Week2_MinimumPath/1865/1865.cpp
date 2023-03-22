@@ -1,58 +1,68 @@
-#include<iostream>
-#include<algorithm>
-#include<vector>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <string.h>
+#include <queue>
+#include <algorithm>
 using namespace std;
+#define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define INF 2100000000 // 21억
+typedef long long int ll;
 
-int N, M;
-int A, B, C;
-int a, b;
-long long dist[501];
-bool cycle;
-vector<pair<int, int>> v[501];
+// 백준 1865번 문제
+// 음수 가중치가 존재하기 때문에 다익스트라가 아닌 벨만-포드 알고리즘을 사용한다.
 
-int main()
-{
-	ios_base::sync_with_stdio(0);
-	cin.tie();
+int TC, N, M, W;
+int S, E, T;
+vector<pair<int, int> > edge[501];
+ll dist[501];
+bool check;
 
-	cin >> N >> M;
+void bellman_ford(int x) {
+	dist[x] = 0;
+	for(int j = 1; j <= N; j++) {
+		for(int i = 1; i <= N; i++) {
+			for(auto e : edge[i]) {
+				int cnt = i;
+				int next = e.first;
+				int cost = e.second;
 
-	for (int i = 0; i < M; i++)
-	{
-		cin >> A >> B >> C;
-		v[A].push_back({ B,C });
-	}
-	
-	for (int i = 1; i <= N; i++)
-		dist[i] = INF; // 모든 노드를 INF로 세팅
+				if(dist[next] <= dist[cnt] + cost) continue;
+				dist[next] = dist[cnt] + cost;
 
-	dist[1] = 0; // 시작점 0으로 초기화
-	
-	for (int i = 1; i <= N; i++)
-		for (int j = 1; j <= N; j++)
-		{
-			for (int k = 0; k < v[j].size(); k++)
-			{
-				int next = v[j][k].first;
-				int d = v[j][k].second;
-
-				if (dist[j] != INF && dist[next] > dist[j] + d)
-				{
-					dist[next] = dist[j] + d;
-					if (i == N) cycle = true;
-				}
-					
+				if(j != N) continue;
+				cout << "YES\n";
+				return;
 			}
 		}
-
-	if (cycle) cout << -1 << '\n';
-	else
-	{
-		for (int i = 2; i <= N; i++)
-			cout << (dist[i] != INF ? dist[i] : -1) << '\n';
 	}
+	cout << "NO\n";
+}
 
-	
+void reset() {
+	for(int i = 0; i <= N; i++) 
+		dist[i] = INF;
+	for(int i = 1; i <= N; i++)
+		edge[i].clear();
+	check = false;
+}
+
+int main() {
+	fastio;
+	cin >> TC;
+	while(TC--) {
+		reset();
+		
+		cin >> N >> M >> W;
+		for(int i = 0; i < M; i++) {
+			cin >> S >> E >> T;
+			edge[S].push_back({E, T}); 
+			edge[E].push_back({S, T});
+		}
+		for(int i = 0; i < W; i++) {
+			cin >> S >> E >> T;
+			edge[S].push_back({E, -T});
+		}
+
+		bellman_ford(1);
+	}
 }

@@ -12,8 +12,8 @@ typedef long long ll;
 // 이 문제는 음수 가중치를 두고 있기 때문에
 // 다익스트라 알고리즘이 아닌 벨만 포드 알고리즘을 사용한다.
 
-int N, M; // 도시갯수, 노선의 개수
-int A, B, C; // 출발도시, 도착도시, 비용시간
+int N, M;
+int A, B, C;
 vector<pair<int, int>> v[501];
 ll dist[501]; // 비용총합
 bool check; // 음수 가중치 사이클 존재여부 확인 변수
@@ -39,19 +39,14 @@ void bellman_ford() {
                 // 아직 도달하지 않은 노드는 설정하지 않는다.
                 // 다음에 도착하는 노드의 시간의 최솟값을 저장 or 유지
                 if (dist[now] == INF) continue;
-                if (dist[next] <= dist[now] + time) continue;
                 // dist[next] = min(dist[next], dist[now] + time)
+                if (dist[next] <= dist[now] + time) continue;
 				dist[next] = dist[now] + time;
 				if (i == N) check = true;
             }
         }
     }
-
-    // OUTPUT
-    // check 변수는 특정한 도시로 들어가는 사이클 중에 반복되며 음수가 중첩된다면
-    // 무한히 과거로 가는 사이클이 존재할 수 있기 때문에 예외처리를 위한 변수이다.
-    // 해당 도시로 들어가는 경로가 없다면 "-1"
-    // 존재한다면 dist에서 비용을 출력한다.
+    
     if(check) cout << "-1\n";
     else {
         for(int i = 2; i <= N; i++) {
@@ -69,7 +64,5 @@ int main() {
         cin >> A >> B >> C;
         v[A].push_back({B, C});
     }
-
-    // Bellman_Ford Algorithm
     bellman_ford();
 }
