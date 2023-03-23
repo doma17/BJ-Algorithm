@@ -2,6 +2,7 @@
 #include <vector>
 #include <string.h>
 #include <queue>
+#include <utility>
 #include <algorithm>
 using namespace std;
 #define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
@@ -60,7 +61,7 @@ int main() {
 		}
 		for(int i = 0; i < W; i++) {
 			cin >> S >> E >> T;
-			edge[S].push_back({E, -T});
+			edge[S].push_back(make_pair(E, -T));
 		}
 
 		bellman_ford(1);
