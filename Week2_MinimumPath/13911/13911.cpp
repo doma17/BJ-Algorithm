@@ -8,7 +8,7 @@ using namespace std;
 typedef long long int ll;
 
 // 백준 13911번 문제
-// 가짜 노드를 활용한 방식으로 풀이.
+// 더미 노드를 활용한 방식으로 풀이.
 
 int V, E;
 int a, b, c;
@@ -20,12 +20,13 @@ bool visited[10005];
 
 void dijkstra(int start, int index) {
     priority_queue<pair<int, int>> pq;
-    pq.push({start, 0});
+    pq.push({0, start});
+    for(int i = 0; i < V+5; i++) dist[i][index] = INF;
     dist[start][index] = 0;
 
     while (!pq.empty()) {
-        int now = pq.top().first;
-        int totalCost = pq.top().second;
+        int now = pq.top().second;
+        int totalCost = -pq.top().first;
         pq.pop();
 
         for(auto x : edge[now]) {
@@ -35,7 +36,7 @@ void dijkstra(int start, int index) {
             if(cost + totalCost >= dist[next][index]) continue;
 
             dist[next][index] = cost + totalCost;
-            pq.push({next, cost + totalCost});
+            pq.push({-(cost + totalCost), next});
         }   
     }
 }
@@ -54,17 +55,16 @@ int main() {
     cin >> M >> x;
     for(int i = 0; i < M; i++) {
         cin >> input;
-        edge[10001].push_back({input, 0});
+        edge[10001].push_back({input, 0}); // 맥날더미 노드에 연결
         visited[input] = true;
     }
     // 스타벅스
     cin >> S >> y;
     for(int i = 0; i < S; i++) {
         cin >> input;
-        edge[10002].push_back({input, 0});
+        edge[10002].push_back({input, 0}); // 스벅더미 노드에 연결
         visited[input] = true;
     }
-    memset(dist, INF, sizeof(dist));
 
     // 다익스트라
     dijkstra(10001, 0);
