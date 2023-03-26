@@ -100,6 +100,7 @@ int main() {
     for(int i = 0; i < N; i++) {
         for(int j = 0; j < M; j++) {
             if(map[i][j] != INF) continue;
+            
             for(int k = 0; k < 4; k++) {
                 int ny = i + y_weight[k];
                 int nx = j + x_weight[k];

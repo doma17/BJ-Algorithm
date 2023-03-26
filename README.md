@@ -11,4 +11,4 @@
 #### Study Crew
 - 🥸 장철희: <https://github.com/jang-namu>
 - 🤩 조치현: <https://github.com/1hcoj/algorithmStudy>
-- 🤪 이승관: 
+- 🤪 이승관: <https://github.com/SeungGwan123/Baekjoon>
