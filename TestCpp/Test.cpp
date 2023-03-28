@@ -5,42 +5,21 @@
 
 using namespace std;
 
-bool comp(pair<int, int> a, pair<int, int> b) {
-    return a.first < b.first;
-}
-
-string solution(vector<int> numbers) {
-    string answer = "";
-    vector<pair<int, int>> lastDigit_numbers(numbers.size());
-    cout << "init \n";
-    for(int index = 0; index < numbers.size(); index++) {
-        int cnt_num = numbers[index];
-
-        cout << "cnt_num: "<< cnt_num << "\n";
-
-        while(cnt_num < 10) {
-            cnt_num = cnt_num / 10;
-        }
-        lastDigit_numbers[index] = make_pair(cnt_num, numbers[index]);
+double time_calc(int node1_time, int node2_time, int vertex) {
+    double time;
+    double length = vertex;
+    for(time = 0; time < abs(node1_time - node2_time);) {
+        length--;
+        time++;
+        if(time >= vertex) return time;
     }
-    
-    sort(lastDigit_numbers.begin(), lastDigit_numbers.end(), comp);
-    
-    for(int index = 0; index < numbers.size(); index++) {
-        answer += to_string(lastDigit_numbers[index].second);
-    } 
-    return answer;
+    cout << time << "\n";
+    cout << length / 2 << "\n";
+    return (time + length / 2);
 }
 
 int main() {
-    cout << 10/10;
-    int N;
-    cin >> N;
-    vector<int> v(N);
-    for(int i = 0; i < N; i++) {
-        cout << "cin\n";
-        cin >> v[i];
-    }
-
-    cout << solution(v);
+    int a, b, c;
+    cin >> a >> b >> c;
+    cout << time_calc(a, b, c) << "\n";
 }
