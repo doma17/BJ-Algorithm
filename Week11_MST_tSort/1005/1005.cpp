@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <string.h>
 #include <algorithm>
 using namespace std;
 #define fastio ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
@@ -13,10 +14,10 @@ typedef long long int ll;
 int T, n, k;
 int a, b;
 int w;
-vector<int> edge[501];
-int degree[501];
-int cost[501];
-int dist[501];
+vector<int> edge[1001];
+int degree[1001];
+int cost[1001];
+int dist[1001];
 
 void toplogical_sort() {
     queue<int> q;
@@ -42,7 +43,7 @@ void toplogical_sort() {
 }
 
 void reset() {
-    edge->clear();
+    memset(edge, 0, sizeof(edge));
     memset(degree, 0, sizeof(degree));
     memset(cost, 0, sizeof(cost));
     memset(dist, 0, sizeof(dist));
@@ -50,22 +51,23 @@ void reset() {
 
 int main() {
 	fastio;
-    // INPUT
     cin >> T;
     while(T--) {
+        // INPUT
         cin >> n >> k;
         for(int i = 1; i <= n; i++)
             cin >> cost[i];
         for(int i = 0; i < k; i++) {
             cin >> a >> b;
             edge[a].push_back(b);
-            degree[a]++;
+            degree[b]++;
         }
         cin >> w;
         // Toplogical Sort
         toplogical_sort();
-        reset();
         // OUTPUT
         cout << dist[w] << "\n";
+        // RESET
+        reset();
     }
 }
