@@ -7,6 +7,9 @@ typedef long long int ll;
 #define INF 987654321
 #define MAX 1001
 
+// 백준 11399번 문제
+// https://www.acmicpc.net/problem/11399
+
 int main() {
 	fastio;
     int N;
