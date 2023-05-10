@@ -24,6 +24,7 @@ void dfs(int x) {
 }
 
 int main() {
+    fastio;
     cin >> N;
 
     for(int i = 0; i < N-1; i++) {
