@@ -13,9 +13,15 @@ typedef long long int ll;
 
 // DEFINITION
 int N;
-pair<int, int> station[MAX];
-priority_queue<int, vector<int>, less<int> > pq;
-int L, P, cnt;
+vector<pair<int, int>> v;
+priority_queue<int, vector<int>, greater<int> > pq;
+bool visited[MAX];
+int L, P;
+int cnt = 0;
+
+bool cmp(pair<int, int> &a, pair<int, int> &b) {
+    return a.second > b.second;
+}
 
 int main() {
 	fastio;
@@ -24,26 +30,31 @@ int main() {
     for(int i = 0; i < N; i++) {
         int a, b;
         cin >> a >> b;
-        station[i].first = a;
-        station[i].second = b;
+        v.push_back({a, b});
     }
     cin >> L >> P;
 
     // PROCESS
-    sort(station, station + N);
+    sort(v.begin(), v.end(), cmp);
 
     int idx = 0;
     while(P < L) {
-        while(station[idx].first <= P && idx < N) { // 현재 가진 연료 안에서 갈 수 있는 주유소를 탐색
-            pq.push(station[idx++].second);
-        }
-        
-        if(!pq.empty()) { // 가지고 있는 거리 안에서 가장 많이 연료를 가진 주유소를 방문
-            P += pq.top(); pq.pop();
+        while(idx < N && v[idx].first <= P) {
+            P += v[idx].second;
+            idx++;
             cnt++;
+            break;
+        }
+        for(int i = 0; i < v.size(); i++) {
+            if(v[i].first <= P && visited[i] == false) {
+                P += v[i].second; // 기름 추가
+                visited[i] = true; // 방문 주유소 체크
+                cnt++;
+                break;
+            }
         }
 
-        if(idx == N || station[idx].first > P) { // 모든 주유소를 방문해도 도착하지 못했을 때
+        if(v.empty()) { // 모든 주유소를 방문해도 도착하지 못했을 때
             cnt = -1;
             break;
         }
