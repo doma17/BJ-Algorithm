@@ -1,4 +1,4 @@
-# kbm_BJ_algorithm
+# BJ_Algorithm
 ## 💻 This repositorie is made for alogorithm study
 #### Baekjoon Online Judge Account : <https://www.acmicpc.net/user/kwakbm5>
 ---
